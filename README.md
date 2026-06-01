@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Portfolio & Blog
 
-## Getting Started
+Next.js personal website with a Markdown-based blog, RSS feed, and sitemap.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Add a blog post
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a new `.md` file in the `posts/` directory (e.g. `posts/my-post.md`).
+2. Add frontmatter at the top:
+   ```yaml
+   ---
+   title: "My Post Title"
+   pubDate: 2026-06-15
+   description: "A short summary shown on the blog index."
+   tags: ["topic"]
+   ---
+   ```
+3. Write the post body in Markdown below the frontmatter.
+4. Commit and push. The slug is derived from the filename (`my-post.md` becomes `/blog/my-post`).
 
-## Learn More
+## Add a project
 
-To learn more about Next.js, take a look at the following resources:
+Edit `src/data/projects.ts` and add a new entry to the `projects` array with `title`, `description`, `tags`, and optional `links`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push the repo to GitHub.
+2. Import the repository in [Vercel](https://vercel.com/new).
+3. Vercel auto-detects Next.js — no special config needed.
+4. After deploy, update `SITE_URL` in `src/app/rss.xml/route.ts` and `src/app/sitemap.ts` with your production domain.
 
-## Deploy on Vercel
+## Placeholders to fill in
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `[REPLACE_WITH_LAST_NAME]` in `src/app/page.tsx`
+- `YOUR_EMAIL`, `YOUR_GITHUB_URL`, `YOUR_LINKEDIN_URL` in `src/app/contact/page.tsx`
+- Each `REPLACE_WITH_LINK` in `src/data/projects.ts`
+- `SITE_URL` in `src/app/rss.xml/route.ts` and `src/app/sitemap.ts`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tech stack
+
+- Next.js 16 (App Router)
+- TypeScript (strict)
+- Tailwind CSS v4
+- gray-matter + remark/remark-html for Markdown
+- feed for RSS generation
