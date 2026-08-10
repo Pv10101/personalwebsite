@@ -1,0 +1,42 @@
+{
+  "_comment": [
+    "Curated ByteFight replays for the portfolio player.",
+    "Attribution: our bot occupied engine slot P1 in every match listed here, and every",
+    "match is a win. Source paths are relative to this file (scripts/bytefight/).",
+    "Regenerate with: python convert.py --manifest matches.json"
+  ],
+  "matches": [
+    {
+      "source": "../../../bytefight/logs/Past logs/new games/Spidermen_1dfffdfe_bot-33433cedabd3_win.json",
+      "id": "spidermen-289-7",
+      "mine": "p1",
+      "botName": "Paint (my bot)",
+      "opponent": "Spidermen",
+      "map": "31x31 · 7 hills"
+    },
+    {
+      "source": "../../../bytefight/logs/New logs/match-5f2f5c13-1b4c-4cb7-98ff-3a3f6ab412f9.json",
+      "id": "ranked-155-50",
+      "mine": "p1",
+      "botName": "Paint (my bot)",
+      "opponent": "Ranked opponent",
+      "map": "27x27 · 6 hills"
+    },
+    {
+      "source": "../../../bytefight/logs/Past logs/new games/NanoBanana_afca4791_bot-33433cedabd3_win.json",
+      "id": "nanobanana-236-86",
+      "mine": "p1",
+      "botName": "Paint (my bot)",
+      "opponent": "NanoBanana",
+      "map": "31x31 · 7 hills"
+    },
+    {
+      "source": "../../../bytefight/logs/Past logs/new games/orz_optimal_unknown_f4838904_bot-164109ace9f3_win.json",
+      "id": "orz-optimal-89-31",
+      "mine": "p1",
+      "botName": "Paint (my bot)",
+      "opponent": "orz_optimal",
+      "map": "21x21 · 8 hills"
+    }
+  ]
+}

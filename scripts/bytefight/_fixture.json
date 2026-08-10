@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "id": "_fixture",
+    "width": 4,
+    "height": 3,
+    "p1": { "name": "Paint (my bot)", "start": [0, 0] },
+    "p2": { "name": "Sample Controller", "start": [2, 3] },
+    "result": "P1",
+    "reason": "DOMINATION",
+    "turns": 3
+  },
+  "static": {
+    "walls": [
+      [0, 0, 0, 0],
+      [0, 1, 1, 0],
+      [0, 0, 0, 0]
+    ],
+    "hills": [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [1, 0, 0, 2]
+    ]
+  },
+  "frames": [
+    {
+      "t": 0,
+      "turnOf": 0,
+      "p1": { "loc": [0, 0], "stamina": 100, "maxStamina": 100, "territory": 0 },
+      "p2": { "loc": [2, 3], "stamina": 100, "maxStamina": 100, "territory": 0 },
+      "paint": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "beacons": [],
+      "powerups": [[1, 0]],
+      "hills": { "1": -1, "2": -1 },
+      "action": ""
+    },
+    {
+      "t": 1,
+      "turnOf": 1,
+      "p1": { "loc": [0, 1], "stamina": 90, "maxStamina": 100, "territory": 2 },
+      "p2": { "loc": [2, 3], "stamina": 100, "maxStamina": 100, "territory": 0 },
+      "paint": [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "beacons": [],
+      "powerups": [[1, 0]],
+      "hills": { "1": 0, "2": -1 },
+      "action": "Paint(0,0) +1 · Move RIGHT"
+    },
+    {
+      "t": 2,
+      "turnOf": 0,
+      "p1": { "loc": [0, 1], "stamina": 90, "maxStamina": 100, "territory": 2 },
+      "p2": { "loc": [2, 2], "stamina": 85, "maxStamina": 100, "territory": 1 },
+      "paint": [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1],
+      "beacons": [[2, 3, 1]],
+      "powerups": [[1, 0]],
+      "hills": { "1": 0, "2": 1 },
+      "action": "Paint(2,3) -1 · Move LEFT"
+    }
+  ]
+}
