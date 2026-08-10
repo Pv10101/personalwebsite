@@ -1,0 +1,56 @@
+{
+  "matches": [
+    {
+      "id": "spidermen-289-7",
+      "file": "matches/spidermen-289-7.json",
+      "p1": "Paint (my bot)",
+      "p2": "Spidermen",
+      "map": "31x31 \u00b7 7 hills",
+      "width": 31,
+      "height": 31,
+      "turns": 372,
+      "result": "P1",
+      "reason": "DOMINATION",
+      "mine": "p1"
+    },
+    {
+      "id": "ranked-155-50",
+      "file": "matches/ranked-155-50.json",
+      "p1": "Paint (my bot)",
+      "p2": "Ranked opponent",
+      "map": "27x27 \u00b7 6 hills",
+      "width": 27,
+      "height": 27,
+      "turns": 288,
+      "result": "P1",
+      "reason": "DOMINATION",
+      "mine": "p1"
+    },
+    {
+      "id": "nanobanana-236-86",
+      "file": "matches/nanobanana-236-86.json",
+      "p1": "Paint (my bot)",
+      "p2": "NanoBanana",
+      "map": "31x31 \u00b7 7 hills",
+      "width": 31,
+      "height": 31,
+      "turns": 405,
+      "result": "P1",
+      "reason": "DOMINATION",
+      "mine": "p1"
+    },
+    {
+      "id": "orz-optimal-89-31",
+      "file": "matches/orz-optimal-89-31.json",
+      "p1": "Paint (my bot)",
+      "p2": "orz_optimal",
+      "map": "21x21 \u00b7 8 hills",
+      "width": 21,
+      "height": 21,
+      "turns": 171,
+      "result": "P1",
+      "reason": "DOMINATION",
+      "mine": "p1"
+    }
+  ]
+}
