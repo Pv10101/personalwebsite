@@ -18,6 +18,9 @@ export const projects: Project[] = [
       "PyTorch Geometric",
       "Research",
     ],
+    links: [
+      { label: "Repo", url: "https://github.com/Pv10101/GCNS" },
+    ],
   },
   {
     slug: "clinical-pipeline",
