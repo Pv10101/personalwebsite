@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import type { Frame, StaticGrids } from "./types";
 import {
   BOARD_BG,
@@ -40,6 +40,36 @@ export default function BoardCanvas({
 }: BoardCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
+
+  /**
+   * Outline segments per hill, in cell units.
+   *
+   * `statics.hills` is per-CELL, so ringing every cell turns a 7-hill map into
+   * ~60 scattered bubbles that compete with the agents. Instead we trace each
+   * hill's outer boundary — an edge wherever a hill cell meets a cell of a
+   * different hill — so a hill reads as the one region it actually is.
+   * Depends only on the static grid, so it is computed once per match.
+   */
+  const hillOutlines = useMemo(() => {
+    const byHill = new Map<number, number[][]>();
+    const { hills } = statics;
+    const at = (r: number, c: number) =>
+      r < 0 || c < 0 || r >= height || c >= width ? 0 : (hills[r]?.[c] ?? 0);
+
+    for (let r = 0; r < height; r++) {
+      for (let c = 0; c < width; c++) {
+        const id = at(r, c);
+        if (id <= 0) continue;
+        let segs = byHill.get(id);
+        if (!segs) byHill.set(id, (segs = []));
+        if (at(r - 1, c) !== id) segs.push([c, r, c + 1, r]);
+        if (at(r + 1, c) !== id) segs.push([c, r + 1, c + 1, r + 1]);
+        if (at(r, c - 1) !== id) segs.push([c, r, c, r + 1]);
+        if (at(r, c + 1) !== id) segs.push([c + 1, r, c + 1, r + 1]);
+      }
+    }
+    return byHill;
+  }, [statics, width, height]);
   // Latest frame kept in a ref so the resize handler can redraw without
   // re-subscribing the ResizeObserver on every frame. Written only in effects.
   const frameRef = useRef(frame);
@@ -129,22 +159,18 @@ export default function BoardCanvas({
       ctx.stroke();
     }
 
-    // --- hill rings ---------------------------------------------------------
-    const ringW = Math.max(1, cell * 0.09);
-    for (let r = 0; r < height; r++) {
-      const hillRow = hills[r];
-      for (let c = 0; c < width; c++) {
-        const hillId = hillRow?.[c] ?? 0;
-        if (hillId <= 0) continue;
-        const owner = f.hills[String(hillId)] ?? -1;
-        const cx = c * cell + cell / 2;
-        const cy = r * cell + cell / 2;
-        ctx.beginPath();
-        ctx.arc(cx, cy, Math.max(1, cell * 0.32), 0, Math.PI * 2);
-        ctx.lineWidth = ringW;
-        ctx.strokeStyle = owner === -1 ? NEUTRAL_HILL : ownerHex(owner);
-        ctx.stroke();
+    // --- hill outlines: one border per hill, not one ring per cell ----------
+    ctx.lineWidth = Math.max(1.25, cell * 0.11);
+    ctx.lineCap = "square";
+    for (const [hillId, segs] of hillOutlines) {
+      const owner = f.hills[String(hillId)] ?? -1;
+      ctx.strokeStyle = owner === -1 ? NEUTRAL_HILL : ownerHex(owner);
+      ctx.beginPath();
+      for (const [x1, y1, x2, y2] of segs) {
+        ctx.moveTo(x1 * cell, y1 * cell);
+        ctx.lineTo(x2 * cell, y2 * cell);
       }
+      ctx.stroke();
     }
 
     // --- powerups: emerald plus --------------------------------------------
@@ -224,7 +250,7 @@ export default function BoardCanvas({
 
     drawAgent(f.p1.loc, P1_HEX, P1_RGB, f.turnOf === 0);
     drawAgent(f.p2.loc, P2_HEX, P2_RGB, f.turnOf === 1);
-  }, [width, height, statics]);
+  }, [width, height, statics, hillOutlines]);
 
   // Redraw whenever the frame (or board identity) changes.
   useEffect(() => {
