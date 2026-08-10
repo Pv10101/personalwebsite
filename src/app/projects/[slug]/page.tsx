@@ -5,6 +5,23 @@ import { projects } from "@/data/projects";
 import { projectDetails } from "@/data/project-details";
 import { ReplayPanel } from "@/components/bytefight";
 import SelfImprovementLoop from "@/components/case-study/SelfImprovementLoop";
+import MultimodalPipeline from "@/components/case-study/MultimodalPipeline";
+import type { ProjectDiagram } from "@/data/project-details";
+
+/** Diagram key -> component + the heading it sits under. */
+const DIAGRAMS: Record<
+  ProjectDiagram,
+  { heading: string; Component: (props: { className?: string }) => React.JSX.Element }
+> = {
+  "bytefight-loop": {
+    heading: "How the loop works",
+    Component: SelfImprovementLoop,
+  },
+  "clarity-coach-pipeline": {
+    heading: "How the pipeline works",
+    Component: MultimodalPipeline,
+  },
+};
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -47,12 +64,15 @@ export default async function ProjectDetail({ params }: Props) {
         </section>
       ))}
 
-      {detail.diagram === "bytefight-loop" && (
+      {detail.diagram && (
         <section>
           <h2 className="text-xl font-semibold text-text mb-3">
-            How the loop works
+            {DIAGRAMS[detail.diagram].heading}
           </h2>
-          <SelfImprovementLoop />
+          {(() => {
+            const { Component } = DIAGRAMS[detail.diagram!];
+            return <Component />;
+          })()}
         </section>
       )}
     </div>

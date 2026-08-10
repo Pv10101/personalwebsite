@@ -9,7 +9,7 @@ interface Section {
 export type ProjectDemo = "bytefight-replay";
 
 /** Architecture diagram rendered under the write-up. */
-export type ProjectDiagram = "bytefight-loop";
+export type ProjectDiagram = "bytefight-loop" | "clarity-coach-pipeline";
 
 /**
  * A headline figure. Keep these to things that are actually measured — an
@@ -97,6 +97,25 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
   },
 
   "clarity-coach": {
+    diagram: "clarity-coach-pipeline",
+    // All three are stated on the project's own Devpost entry.
+    metrics: [
+      {
+        value: "45 s",
+        label: "Recording analysed per session",
+        note: "posture, gaze, clarity, pacing",
+      },
+      {
+        value: "36 h",
+        label: "Concept to working demo",
+        note: "TreeHacks 2026, team of four",
+      },
+      {
+        value: "1 in 5",
+        label: "U.S. residents raised speaking another language",
+        note: "the audience it was built for",
+      },
+    ],
     sections: [
       {
         heading: "Overview",
