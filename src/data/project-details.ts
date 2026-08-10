@@ -8,10 +8,26 @@ interface Section {
 /** Interactive demo to pin beside the write-up. Add a case here to wire a new one up. */
 export type ProjectDemo = "bytefight-replay";
 
+/** Architecture diagram rendered under the write-up. */
+export type ProjectDiagram = "bytefight-loop";
+
+/**
+ * A headline figure. Keep these to things that are actually measured — an
+ * unlabelled or aspirational number is worse than no number at all.
+ */
+export interface ProjectMetric {
+  value: string;
+  label: string;
+  /** Qualifier shown under the label. Use it to scope the claim honestly. */
+  note?: string;
+}
+
 export interface ProjectDetail {
   sections: Section[];
   /** When set, the detail page switches to a two-column layout with the demo on the right. */
   demo?: ProjectDemo;
+  diagram?: ProjectDiagram;
+  metrics?: ProjectMetric[];
 }
 
 export const projectDetails: Record<string, ProjectDetail> = {
@@ -99,6 +115,14 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
 
   bytefight: {
     demo: "bytefight-replay",
+    diagram: "bytefight-loop",
+    // Baseline-only on purpose: the post-loop ELO has not been recorded yet, and
+    // a stated-but-unmeasured improvement figure would be worse than none.
+    metrics: [
+      { value: "1578", label: "Baseline ELO", note: "before the loop ran" },
+      { value: "#21 / 51", label: "Leaderboard rank", note: "at baseline" },
+      { value: "2,232", label: "Lines in bot.py", note: "single-file engine" },
+    ],
     sections: [
       {
         heading: "Overview",

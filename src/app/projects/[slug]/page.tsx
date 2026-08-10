@@ -4,6 +4,7 @@ import Link from "next/link";
 import { projects } from "@/data/projects";
 import { projectDetails } from "@/data/project-details";
 import { ReplayPanel } from "@/components/bytefight";
+import SelfImprovementLoop from "@/components/case-study/SelfImprovementLoop";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -45,6 +46,15 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
       ))}
+
+      {detail.diagram === "bytefight-loop" && (
+        <section>
+          <h2 className="text-xl font-semibold text-text mb-3">
+            How the loop works
+          </h2>
+          <SelfImprovementLoop />
+        </section>
+      )}
     </div>
   ) : (
     <p className="text-stone-300 leading-relaxed">{project.description}</p>
@@ -76,6 +86,31 @@ export default async function ProjectDetail({ params }: Props) {
         ))}
       </div>
 
+      {detail?.metrics && detail.metrics.length > 0 && (
+        <dl className="mt-8 grid gap-3 sm:grid-cols-3">
+          {detail.metrics.map((metric) => (
+            <div
+              key={metric.label}
+              className="rounded-lg border border-border bg-surface/40 px-4 py-3"
+            >
+              {/* Proportional figures: tabular-nums looks loose at display sizes
+                  and nothing here has to align in a column. */}
+              <dd className="text-2xl font-semibold text-text">
+                {metric.value}
+              </dd>
+              <dt className="mt-1 text-xs font-medium text-stone-400">
+                {metric.label}
+              </dt>
+              {metric.note && (
+                <p className="mt-0.5 text-[11px] text-stone-500">
+                  {metric.note}
+                </p>
+              )}
+            </div>
+          ))}
+        </dl>
+      )}
+
       {hasDemo ? (
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] lg:items-start">
           <div className="min-w-0">{writeUp}</div>
@@ -96,17 +131,28 @@ export default async function ProjectDetail({ params }: Props) {
 
       {project.links && project.links.length > 0 && (
         <div className="mt-10 pt-6 border-t border-border flex gap-4">
-          {project.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
-            >
-              {link.label} &rarr;
-            </a>
-          ))}
+          {project.links.map((link) =>
+            // Internal routes stay in-tab and use client navigation.
+            link.url.startsWith("/") ? (
+              <Link
+                key={link.label}
+                href={link.url}
+                className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+              >
+                {link.label} &rarr;
+              </Link>
+            ) : (
+              <a
+                key={link.label}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+              >
+                {link.label} &rarr;
+              </a>
+            ),
+          )}
         </div>
       )}
     </article>
