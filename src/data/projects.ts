@@ -18,9 +18,9 @@ export const projects: Project[] = [
       "PyTorch Geometric",
       "Research",
     ],
-    links: [
-      { label: "Repo", url: "https://github.com/Pv10101/GCNS" },
-    ],
+    // Repo link removed: github.com/Pv10101/GCNS returns 404 to logged-out
+    // visitors (private or renamed). Restore once it is public:
+    //   links: [{ label: "Repo", url: "https://github.com/Pv10101/GCNS" }],
   },
   {
     slug: "clinical-pipeline",
@@ -45,8 +45,19 @@ export const projects: Project[] = [
     description:
       "An AI speaking coach built at TreeHacks that gives real-time feedback on how you present, aimed at ESL speakers preparing for high-stakes moments.",
     tags: ["FastAPI", "MediaPipe", "Whisper", "Hackathon"],
+    // The linked repo is only the Node/Express audio backend — the FastAPI +
+    // MediaPipe video pipeline lives elsewhere. Devpost leads because it shows
+    // the whole project; the repo label says what it actually contains so the
+    // link does not oversell itself.
     links: [
-      { label: "Repo", url: "https://github.com/SamhitaK10/clarity-coach" },
+      {
+        label: "Devpost",
+        url: "https://devpost.com/software/clarity-coach",
+      },
+      {
+        label: "Audio backend repo",
+        url: "https://github.com/SamhitaK10/clarity-coach",
+      },
     ],
   },
   {
@@ -55,8 +66,11 @@ export const projects: Project[] = [
     description:
       "A competitive game-playing agent that improves itself through an automated analyze-patch-test loop.",
     tags: ["Game AI", "Automation", "Playwright", "Python"],
+    // Repo link removed: github.com/Pv10101/bytefightbot returns 404 to
+    // logged-out visitors. The plan is a curated public showcase repo (keeping
+    // the competition bot private); link that here once it exists.
     links: [
-      { label: "Repo", url: "https://github.com/Pv10101/bytefightbot" },
+      { label: "Watch a match replay", url: "/projects/bytefight/replay" },
     ],
   },
 ];
