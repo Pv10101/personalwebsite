@@ -52,7 +52,7 @@ export const projects: Project[] = [
     links: [
       {
         label: "Devpost",
-        url: "https://devpost.com/software/clarity-coach",
+        url: "https://devpost.com/software/clarity-coach-1oxkvl",
       },
       {
         label: "Audio backend repo",
