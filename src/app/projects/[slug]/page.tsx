@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import { projectDetails } from "@/data/project-details";
+import { ReplayPanel } from "@/components/bytefight";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -28,9 +29,31 @@ export default async function ProjectDetail({ params }: Props) {
   if (!project) notFound();
 
   const detail = projectDetails[slug];
+  const hasDemo = detail?.demo !== undefined;
+
+  const writeUp = detail ? (
+    <div className="space-y-8">
+      {detail.sections.map((section) => (
+        <section key={section.heading}>
+          <h2 className="text-xl font-semibold text-text mb-3">
+            {section.heading}
+          </h2>
+          <div className="space-y-4 text-stone-300 leading-relaxed">
+            {section.body.split("\n\n").map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  ) : (
+    <p className="text-stone-300 leading-relaxed">{project.description}</p>
+  );
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-20">
+    <article
+      className={`mx-auto px-6 py-20 ${hasDemo ? "max-w-6xl" : "max-w-3xl"}`}
+    >
       <Link
         href="/projects"
         className="text-sm text-text-muted hover:text-accent transition-colors"
@@ -53,25 +76,22 @@ export default async function ProjectDetail({ params }: Props) {
         ))}
       </div>
 
-      {detail ? (
-        <div className="mt-10 space-y-8">
-          {detail.sections.map((section) => (
-            <section key={section.heading}>
-              <h2 className="text-xl font-semibold text-text mb-3">
-                {section.heading}
-              </h2>
-              <div className="space-y-4 text-stone-300 leading-relaxed">
-                {section.body.split("\n\n").map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-            </section>
-          ))}
+      {hasDemo ? (
+        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] lg:items-start">
+          <div className="min-w-0">{writeUp}</div>
+
+          {/* Sticky so the replay stays in view while the write-up scrolls. */}
+          <aside className="min-w-0 lg:sticky lg:top-8">
+            <ReplayPanel
+              link={{
+                href: "/projects/bytefight/replay",
+                label: "Open full size →",
+              }}
+            />
+          </aside>
         </div>
       ) : (
-        <p className="mt-8 text-stone-300 leading-relaxed">
-          {project.description}
-        </p>
+        <div className="mt-10">{writeUp}</div>
       )}
 
       {project.links && project.links.length > 0 && (

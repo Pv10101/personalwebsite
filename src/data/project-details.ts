@@ -5,8 +5,13 @@ interface Section {
   body: string;
 }
 
+/** Interactive demo to pin beside the write-up. Add a case here to wire a new one up. */
+export type ProjectDemo = "bytefight-replay";
+
 export interface ProjectDetail {
   sections: Section[];
+  /** When set, the detail page switches to a two-column layout with the demo on the right. */
+  demo?: ProjectDemo;
 }
 
 export const projectDetails: Record<string, ProjectDetail> = {
@@ -93,6 +98,7 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
   },
 
   bytefight: {
+    demo: "bytefight-replay",
     sections: [
       {
         heading: "Overview",
