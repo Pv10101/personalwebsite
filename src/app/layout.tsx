@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -23,6 +23,14 @@ export const metadata: Metadata = {
     "Machine learning researcher and engineer working at the intersection of interpretability, robustness, and real-world deployment.",
 };
 
+// themeColor/colorScheme moved out of `metadata` in Next 14 — they live on the
+// viewport export now. themeColor matches --color-bg so mobile browser chrome
+// does not clash with the page.
+export const viewport: Viewport = {
+  themeColor: "#0c0a09",
+  colorScheme: "dark",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,8 +42,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <Nav />
-        <main className="flex-1">{children}</main>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

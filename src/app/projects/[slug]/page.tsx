@@ -65,14 +65,14 @@ export default async function ProjectDetail({ params }: Props) {
         </section>
       ))}
 
-      {detail.gallery && detail.gallery.length > 0 && (
+      {detail.gallery && detail.gallery.length > 0 ? (
         <section>
           <h2 className="text-xl font-semibold text-text mb-3">In the product</h2>
           <ScreenshotGallery shots={detail.gallery} />
         </section>
-      )}
+      ) : null}
 
-      {detail.diagram && (
+      {detail.diagram ? (
         <section>
           <h2 className="text-xl font-semibold text-text mb-3">
             {DIAGRAMS[detail.diagram].heading}
@@ -82,7 +82,7 @@ export default async function ProjectDetail({ params }: Props) {
             return <Component />;
           })()}
         </section>
-      )}
+      ) : null}
     </div>
   ) : (
     <p className="text-stone-300 leading-relaxed">{project.description}</p>
@@ -99,11 +99,17 @@ export default async function ProjectDetail({ params }: Props) {
         &larr; All projects
       </Link>
 
-      <h1 className="mt-6 text-3xl sm:text-4xl font-bold tracking-tight">
+      <h1 className="mt-6 text-3xl sm:text-4xl font-bold tracking-tight text-balance">
         {project.title}
       </h1>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      {detail?.lede ? (
+        <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-stone-300 text-pretty">
+          {detail.lede}
+        </p>
+      ) : null}
+
+      <div className="mt-5 flex flex-wrap gap-2">
         {project.tags.map((tag) => (
           <span
             key={tag}
@@ -114,7 +120,20 @@ export default async function ProjectDetail({ params }: Props) {
         ))}
       </div>
 
-      {detail?.metrics && detail.metrics.length > 0 && (
+      {detail?.facts && detail.facts.length > 0 ? (
+        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-border pt-5 sm:grid-cols-4">
+          {detail.facts.map((fact) => (
+            <div key={fact.label} className="min-w-0">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">
+                {fact.label}
+              </dt>
+              <dd className="mt-0.5 text-sm text-stone-300">{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+
+      {detail?.metrics && detail.metrics.length > 0 ? (
         <dl className="mt-8 grid gap-3 sm:grid-cols-3">
           {detail.metrics.map((metric) => (
             <div
@@ -129,15 +148,15 @@ export default async function ProjectDetail({ params }: Props) {
               <dt className="mt-1 text-xs font-medium text-stone-400">
                 {metric.label}
               </dt>
-              {metric.note && (
+              {metric.note ? (
                 <p className="mt-0.5 text-[11px] text-stone-500">
                   {metric.note}
                 </p>
-              )}
+              ) : null}
             </div>
           ))}
         </dl>
-      )}
+      ) : null}
 
       {hasDemo ? (
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,560px)] lg:items-start">
@@ -157,7 +176,7 @@ export default async function ProjectDetail({ params }: Props) {
         <div className="mt-10">{writeUp}</div>
       )}
 
-      {project.links && project.links.length > 0 && (
+      {project.links && project.links.length > 0 ? (
         <div className="mt-10 pt-6 border-t border-border flex gap-4">
           {project.links.map((link) =>
             // Internal routes stay in-tab and use client navigation.
@@ -182,7 +201,7 @@ export default async function ProjectDetail({ params }: Props) {
             ),
           )}
         </div>
-      )}
+      ) : null}
     </article>
   );
 }

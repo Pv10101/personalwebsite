@@ -33,8 +33,17 @@ export interface ProjectShot {
   height: number;
 }
 
+/** Short key/value facts (role, team, venue) shown under the title. */
+export interface ProjectFact {
+  label: string;
+  value: string;
+}
+
 export interface ProjectDetail {
   sections: Section[];
+  /** One-sentence framing shown above the fold, before the write-up. */
+  lede?: string;
+  facts?: ProjectFact[];
   gallery?: ProjectShot[];
   /** When set, the detail page switches to a two-column layout with the demo on the right. */
   demo?: ProjectDemo;
@@ -109,6 +118,13 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
   },
 
   "clarity-coach": {
+    lede: "A speaking coach that watches and listens at the same time — one 45-second recording, scored on posture and eye contact as well as clarity and pacing, then talked through with an AI coach.",
+    facts: [
+      { label: "Role", value: "Team lead · full-stack architecture" },
+      { label: "Built at", value: "TreeHacks 2026, Stanford" },
+      { label: "Team", value: "4 people, 36 hours" },
+      { label: "Stack", value: "FastAPI · MediaPipe · Whisper · Modal" },
+    ],
     diagram: "clarity-coach-pipeline",
     // Self-hosted copies of the Devpost gallery: those CloudFront URLs are not
     // ours and can rot. Originals were ~6.4MB of PNG; these are ~135KB of WebP.
@@ -155,17 +171,17 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
     // All three are stated on the project's own Devpost entry.
     metrics: [
       {
-        value: "45 s",
+        value: "45 s",
         label: "Recording analysed per session",
         note: "posture, gaze, clarity, pacing",
       },
       {
-        value: "36 h",
+        value: "36 h",
         label: "Concept to working demo",
         note: "TreeHacks 2026, team of four",
       },
       {
-        value: "1 in 5",
+        value: "1 in 5",
         label: "U.S. residents raised speaking another language",
         note: "the audience it was built for",
       },
@@ -193,7 +209,7 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
     // a stated-but-unmeasured improvement figure would be worse than none.
     metrics: [
       { value: "1578", label: "Baseline ELO", note: "before the loop ran" },
-      { value: "#21 / 51", label: "Leaderboard rank", note: "at baseline" },
+      { value: "#21 / 51", label: "Leaderboard rank", note: "at baseline" },
       { value: "2,232", label: "Lines in bot.py", note: "single-file engine" },
     ],
     sections: [
