@@ -203,6 +203,12 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
   },
 
   bytefight: {
+    lede: "A territory-control game bot that improves itself: it scrimmages against stronger opponents, diagnoses the single pattern losing it games, changes exactly one thing, and re-tests before shipping.",
+    facts: [
+      { label: "Built at", value: "ByteFight 2026, Georgia Tech" },
+      { label: "Format", value: "Month-long competition" },
+      { label: "Stack", value: "Python · Playwright" },
+    ],
     demo: "bytefight-replay",
     diagram: "bytefight-loop",
     // Baseline-only on purpose: the post-loop ELO has not been recorded yet, and
