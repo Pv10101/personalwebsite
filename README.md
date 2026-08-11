@@ -135,11 +135,15 @@ Single-camera pilot collision-avoidance HUD (TreeHacks 2025): monocular depth (*
 `ProjectDetail` (`src/data/project-details.ts`) now drives the detail page. Adding
 a case study is a data change plus, at most, one diagram component.
 
-- [x] `demo` — switches to a two-column layout with an interactive demo pinned right.
+- [x] `demo` — mounts an interactive demo at the top of the content column.
 - [x] `diagram` — keyed registry, one entry per architecture diagram.
-- [x] `metrics` — stat-tile band under the title.
+- [x] `metrics` — stat tiles, rendered in the rail.
 - [x] `gallery` — self-hosted screenshots with alt text and captions.
+- [x] `lede` — one-sentence framing; falls back to the project card description.
+- [x] `facts` — role / venue / team / stack strip, rendered in the rail.
 - [x] Devpost screenshots self-hosted for Clarity Coach.
+- [x] Detail-page layout: sticky rail + 68ch prose (see the layout finding below).
+- [x] Site-wide accessibility pass (see the accessibility finding below).
 - [ ] Hero media slot (video/GIF) — **needed for WatchTower**, not built yet.
 - [ ] "ML deep-dive" callout.
 - [ ] Self-host WatchTower's 4 Devpost screenshots.
@@ -190,6 +194,49 @@ Things discovered while building that are not obvious from the code.
 - The Clarity Coach screenshots include a **teammate's face, first name, and a
   critique of her speaking**. Already public on the team's own Devpost, so
   re-hosting is not a new disclosure — but it is a judgement call worth revisiting.
+
+### Layout: the page was mostly empty margin
+
+The detail pages were a single `max-w-3xl` column, so on a wide display roughly
+half the viewport was blank either side. Widening the prose was the wrong fix —
+it reads at ~68ch and belongs there. The width instead went to a **sticky rail**
+carrying facts, metrics and links, and media (galleries, diagrams, the replay)
+now breaks out to the full content column rather than being boxed at prose width.
+
+- Gallery/diagram column: 560px → **800px**. ByteFight board: 526px → **766px**.
+- Project links used to sit at the very bottom of the page. They are in the rail now.
+- The rail collapses when a project has nothing to put in it, so Neuron Shapley
+  and Clinical Pipeline do not reserve an empty column.
+
+### Accessibility and platform gaps
+
+Found by auditing against `vercel-labs/web-interface-guidelines`:
+
+- **`color-scheme: dark` was missing.** A dark site still gets light native
+  scrollbars, selects and form controls on Windows and iOS without it.
+- **`themeColor` was deprecated out of `metadata` in Next 14** — setting it there
+  is silently ignored. It lives on the `viewport` export now.
+- No skip link and no focus styling. Both added: one `:focus-visible` treatment
+  site-wide rather than per-component rings.
+- `prefers-reduced-motion` was not honoured; `touch-action: manipulation` was
+  missing (300ms double-tap delay on touch).
+- `&&` conditionals became ternaries so a falsy left-hand side cannot render a
+  stray `0`.
+- Deliberate deviation: the guidelines want Title Case headings. The write-ups
+  use sentence case ("What was done"), so sentence case stayed.
+
+### Tooling: the Vercel skills
+
+`npx skills add vercel-labs/agent-skills/...` **fails on this machine** — the CLI
+needs Node ≥ 22.20 and nvm only has 14 and 21.6.1. Rather than upgrade the Node
+runtime, the archives were fetched directly:
+
+```
+https://raw.githubusercontent.com/vercel-labs/agent-skills/main/skills/<name>.zip
+```
+
+extracted into the gitignored local skills directory, so the skills are
+local only — a fresh clone will not have them.
 
 ### Repo hygiene
 
