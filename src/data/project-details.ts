@@ -22,8 +22,20 @@ export interface ProjectMetric {
   note?: string;
 }
 
+/** A product screenshot, self-hosted under public/. */
+export interface ProjectShot {
+  src: string;
+  /** What is literally on screen — this is what a screen reader announces. */
+  alt: string;
+  /** What it demonstrates about the product. */
+  caption: string;
+  width: number;
+  height: number;
+}
+
 export interface ProjectDetail {
   sections: Section[];
+  gallery?: ProjectShot[];
   /** When set, the detail page switches to a two-column layout with the demo on the right. */
   demo?: ProjectDemo;
   diagram?: ProjectDiagram;
@@ -98,6 +110,48 @@ Stage two freezes the trained encoder and trains a fresh prediction head with Gr
 
   "clarity-coach": {
     diagram: "clarity-coach-pipeline",
+    // Self-hosted copies of the Devpost gallery: those CloudFront URLs are not
+    // ours and can rot. Originals were ~6.4MB of PNG; these are ~135KB of WebP.
+    gallery: [
+      {
+        src: "/clarity-coach/01-landing.webp",
+        width: 1600,
+        height: 839,
+        alt: "Clarity Coach landing page with the tagline 'Speak with confidence' and a 'Start improving' button.",
+        caption: "Where a practice session starts.",
+      },
+      {
+        src: "/clarity-coach/02-recording.webp",
+        width: 1600,
+        height: 840,
+        alt: "Recording screen showing a live webcam preview of a speaker mid-sentence, with a red 'Recording' badge and a stop button.",
+        caption:
+          "Capture runs in the browser through getUserMedia, capped at 45 seconds.",
+      },
+      {
+        src: "/clarity-coach/03-scores.webp",
+        width: 1600,
+        height: 836,
+        alt: "Results screen showing an overall score of 72 out of 100, with cards for posture at 70 and eye contact at 75, beside a written summary.",
+        caption:
+          "Vision output becomes per-category scores, with the LLM's summary alongside.",
+      },
+      {
+        src: "/clarity-coach/04-transcript.webp",
+        width: 1600,
+        height: 835,
+        alt: "Transcript view with filler words flagged, and two columns listing strong moments and areas for development against timestamps.",
+        caption:
+          "The speech path: transcript, flagged fillers, and timestamped moments.",
+      },
+      {
+        src: "/clarity-coach/05-ai-coach.webp",
+        width: 1600,
+        height: 832,
+        alt: "A 'Talk to your AI coach' dialog where the user asks how to use fewer filler words and the coach replies with advice about pausing.",
+        caption: "Follow-up questions, answered against your own session.",
+      },
+    ],
     // All three are stated on the project's own Devpost entry.
     metrics: [
       {

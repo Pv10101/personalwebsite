@@ -6,6 +6,7 @@ import { projectDetails } from "@/data/project-details";
 import { ReplayPanel } from "@/components/bytefight";
 import SelfImprovementLoop from "@/components/case-study/SelfImprovementLoop";
 import MultimodalPipeline from "@/components/case-study/MultimodalPipeline";
+import ScreenshotGallery from "@/components/case-study/ScreenshotGallery";
 import type { ProjectDiagram } from "@/data/project-details";
 
 /** Diagram key -> component + the heading it sits under. */
@@ -63,6 +64,13 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
       ))}
+
+      {detail.gallery && detail.gallery.length > 0 && (
+        <section>
+          <h2 className="text-xl font-semibold text-text mb-3">In the product</h2>
+          <ScreenshotGallery shots={detail.gallery} />
+        </section>
+      )}
 
       {detail.diagram && (
         <section>
